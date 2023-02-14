@@ -32,7 +32,7 @@ export class gamplay extends Component {
     let puckWidth = temp.getComponent(UITransform).contentSize.width;
     let puckHeight = temp.getComponent(UITransform).contentSize.height;
     // console.log(puckWidth);
-const s=5
+    const s=5
     for (let i = 0; i < s; i++) {
       let m = 5 - Math.abs(2 - i);
       for (let j = 0; j < m; j++) {
@@ -43,13 +43,14 @@ const s=5
 
         
       }
-      startpos.x = pos;
-      console.log(pos);
-
       startpos.y = startpos.y - puckHeight;
-      if(i<Math.floor(s*0.5)){ 
+      startpos.x = pos;
+      // console.log(pos);
 
+      console.log(i<s/2);
+      if(i<=Math.floor(s/2)){ 
         startpos.x = startpos.x - puckWidth * 0.5;
+
       }
       else{
         startpos.x = startpos.x + puckWidth * 0.5;
