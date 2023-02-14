@@ -32,42 +32,68 @@ export class gamplay extends Component {
     let puckWidth = temp.getComponent(UITransform).contentSize.width;
     let puckHeight = temp.getComponent(UITransform).contentSize.height;
     // console.log(puckWidth);
-    var n = 3;
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < n + i; j++) {
+const s=5
+    for (let i = 0; i < s; i++) {
+      let m = 5 - Math.abs(2 - i);
+      for (let j = 0; j < m; j++) {
         temp = this.newGenLoad();
         this.node.addChild(temp);
         temp.setPosition(startpos);
         startpos.x = startpos.x + puckWidth;
-      }
 
-      console.log(pos);
+        
+      }
       startpos.x = pos;
       console.log(pos);
 
       startpos.y = startpos.y - puckHeight;
-      startpos.x = startpos.x - puckWidth * 0.5;
-      pos = startpos.x;
+      if(i<Math.floor(s*0.5)){ 
 
-      // puckHeight=puckHeight
-    }
-
-    for (let i = 2; i > 0; i--) {
-      startpos.x = startpos.x + puckWidth;
-      for (let j = 0; j < n + i - 1; j++) {
-        temp = this.newGenLoad();
-        this.node.addChild(temp);
-        temp.setPosition(startpos);
-        startpos.x = startpos.x + puckWidth;
+        startpos.x = startpos.x - puckWidth * 0.5;
       }
-
-      console.log(pos);
-      startpos.x = pos;
-      console.log(pos);
-      startpos.x = startpos.x + puckWidth * 0.5;
-      startpos.y = startpos.y - puckHeight;
+      else{
+        startpos.x = startpos.x + puckWidth * 0.5;
+      }
       pos = startpos.x;
     }
+
+
+    // var n = 3;
+    // for (let i = 0; i < 3; i++) {
+    //   for (let j = 0; j < n + i; j++) {
+    //     temp = this.newGenLoad();
+    //     this.node.addChild(temp);
+    //     temp.setPosition(startpos);
+    //     startpos.x = startpos.x + puckWidth;
+    //   }
+
+    //   console.log(pos);
+    //   startpos.x = pos;
+    //   console.log(pos);
+
+    //   startpos.y = startpos.y - puckHeight;
+    //   startpos.x = startpos.x - puckWidth * 0.5;
+    //   pos = startpos.x;
+
+    //   // puckHeight=puckHeight
+    // }
+
+    // for (let i = 2; i > 0; i--) {
+    //   startpos.x = startpos.x + puckWidth;
+    //   for (let j = 0; j < n + i - 1; j++) {
+    //     temp = this.newGenLoad();
+    //     this.node.addChild(temp);
+    //     temp.setPosition(startpos);
+    //     startpos.x = startpos.x + puckWidth;
+    //   }
+
+    //   console.log(pos);
+    //   startpos.x = pos;
+    //   console.log(pos);
+    //   startpos.x = startpos.x + puckWidth * 0.5;
+    //   startpos.y = startpos.y - puckHeight;
+    //   pos = startpos.x;
+    // }
   }
   update(deltaTime: number) {}
 }
