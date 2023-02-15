@@ -1,0 +1,67 @@
+
+
+
+
+{
+    "pucksColor" :
+     [
+    {
+        "id":1,"color":"Black"
+    },
+    {
+        "id":2,"color":"White"
+    },
+    {
+        "id":3,"color":"Black"
+    },
+    {
+        "id":4,"color":"White"
+    },
+    {
+        "id":5,"color":"Black"
+    },
+    {
+        "id":6,"color":"White"
+    },
+    {
+        "id":7,"color":"White"
+    },
+    {
+        "id":8,"color":"Black"
+    },
+    {
+        "id":9,"color":"White"
+    },
+    {
+        "id":10,"color":"Red"
+    },
+    {
+        "id":11,"color":"Black"
+    },
+    {
+        "id":12,"color":"Black"
+    },
+    {
+        "id":13,"color":"White"
+    },
+    {
+        "id":14,"color":"Black"
+    },
+    {
+        "id":15,"color":"White"
+    },
+    {
+        "id":16,"color":"White"
+    },
+    {
+        "id":17,"color":"Black"
+    },
+    {
+        "id":18,"color":"White"
+    },
+    {
+        "id":19,"color":"Black"
+    }
+    ]
+    
+    }
