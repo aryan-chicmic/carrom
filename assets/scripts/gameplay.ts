@@ -10,6 +10,7 @@ import {
   Graphics,
   Vec3,
   JsonAsset,
+  RigidBody2D,
 } from "cc";
 const { ccclass, property } = _decorator;
 import { PUCKS } from "./constants";
@@ -35,8 +36,9 @@ export class gamplay extends Component {
     let startpos = temp.getPosition();
     var pos = startpos.x;
 
-    let puckWidth = temp.getComponent(UITransform).getBoundingBox().width;
-    let puckHeight = temp.getComponent(UITransform).getBoundingBox().height;
+    let puckWidth = temp.getComponent(UITransform).getBoundingBox().width - 40;
+    let puckHeight =
+      temp.getComponent(UITransform).getBoundingBox().height - 40;
 
     const s = 5;
     var counter = 0;

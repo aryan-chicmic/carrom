@@ -1,4 +1,19 @@
-import { _decorator, Component, Node, Slider, UITransform, Input } from "cc";
+import {
+  _decorator,
+  Component,
+  Node,
+  Slider,
+  UITransform,
+  Input,
+  tween,
+  Quat,
+  quat,
+  Vec3,
+  repeat,
+  Tween,
+  SpriteFrame,
+  Sprite,
+} from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("slider")
@@ -7,21 +22,28 @@ export class slider extends Component {
   stikerNode: Node = null;
   @property({ type: Node })
   hover: Node = null;
-  // slider: any;
+  @property({ type: Node })
+  hoverROTATE: Node = null;
+  @property({ type: Node })
+  arrow: Node = null;
+
   intitialPos = -467;
   width = 942;
   strikerIntial_y = 0;
+  arrow_y = 0;
   hover_y = 0;
+
   onLoad() {
+    // this.arrow.active = false;
     this.node.on("slide", this.move, this);
     this.strikerIntial_y = this.stikerNode.getPosition().y;
     this.hover_y = this.hover.getPosition().y;
-    console.log(this.hover_y);
+    this.arrow_y = this.arrow.getPosition().y;
 
     this.node
       .getChildByName("Handle")
       .on(Input.EventType.TOUCH_START, this.scaleUp, this);
-    // this.stikerNode.getComponent(UITransform).getBoundingBox();
+
     this.node
       .getChildByName("Handle")
       .on(Input.EventType.TOUCH_END, this.scaledown, this);
@@ -40,13 +62,41 @@ export class slider extends Component {
   move() {
     let progress = this.node.getComponent(Slider).progress;
     progress = progress * this.width;
+
     this.stikerNode.setPosition(
       this.intitialPos + progress,
       this.strikerIntial_y,
       0
     );
+
     this.hover.setPosition(this.intitialPos + progress, this.hover_y, 0);
-    // currentProgress_slider = 0;
+    // this.arrow.setPosition(this.intitialPos + progress, this.arrow_y, 0);
+    this.hoverROTATE.setPosition(this.intitialPos + progress, this.hover_y, 0);
+
+    this.node.on(
+      Input.EventType.MOUSE_DOWN,
+      () => {
+        this.hoverROTATE.active = true;
+        tween(this.hoverROTATE)
+          .by(1, {
+            angle: 360,
+          })
+          .repeatForever()
+          .start();
+      },
+      this
+    );
+    this.node.on(Input.EventType.MOUSE_UP, () => {
+      this.hoverROTATE.active = false;
+      Tween.stopAll();
+    });
+    // this.stikerNode.on(Input.EventType.MOUSE_DOWN, () => {
+    //   // this.arrow.active = true;z
+    //   this.arrow.setScale(1, 3);
+    // });
+    // // this.stikerNode.on(Input.EventType.MOUSE_UP, () => {
+    // //   this.arrow.active = false;
+    // // });
   }
   start() {}
 
