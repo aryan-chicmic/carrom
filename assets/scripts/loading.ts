@@ -26,7 +26,7 @@ export class loading extends Component {
     var s1 = singleton.getInstance();
 
     this.spritesArr = await s1.resourceLoad("Carrom");
-    console.log(this.spritesArr);
+    // console.log(this.spritesArr);
 
     // this.spritedemo.node.active = true;
 
@@ -36,13 +36,13 @@ export class loading extends Component {
 
   fetchBack() {
     let bg = this.spritesArr[singleton.getInstance().assetIndex("bg")];
-    console.log(bg);
+    // console.log(bg);
     this.node.getComponent(Sprite).spriteFrame = bg;
   }
 
   fetchLogo() {
     let logo = this.spritesArr[singleton.getInstance().assetIndex("logo")];
-    console.log(logo);
+    // console.log(logo);
     this.logopic.getComponent(Sprite).spriteFrame = logo;
     setTimeout(() => director.loadScene("gameplay"), 4000);
   }

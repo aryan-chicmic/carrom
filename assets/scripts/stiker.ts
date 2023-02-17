@@ -41,17 +41,20 @@ export class stiker extends Component {
   start() {
     this.node.on(Input.EventType.TOUCH_START, this.fetchLocationStart, this);
     this.node.on(Input.EventType.TOUCH_MOVE, this.increaseHeight, this);
+    this.node.on(Input.EventType.TOUCH_END, this.fetchLocationEnd, this);
     this.node.on(Input.EventType.TOUCH_CANCEL, this.fetchLocationEnd, this);
   }
   fetchLocationStart(event: EventTouch) {
     this.arrow.active = true;
+    this.hoverGreen.active = true;
+    this.hoverRotate.active = true;
     this.cursorStartPosonX = event.getUILocation().x;
     this.cursorStartPosonY = event.getUILocation().y;
-    console.log(
-      "Start Positions: ",
-      this.cursorStartPosonX,
-      this.cursorStartPosonY
-    );
+    // console.log(
+    //   "Start Positions: ",
+    //   this.cursorStartPosonX,
+    //   this.cursorStartPosonY
+    // );
 
     // console.log(event.getLocationX());
   }
@@ -70,14 +73,14 @@ export class stiker extends Component {
   increaseHeight(event: EventTouch) {
     this.cursorEndPosonX = event.getUILocation().x;
     this.cursorEndPosonY = event.getUILocation().y;
-    console.log(this.cursorEndPosonX, this.cursorEndPosonY);
+    // console.log(this.cursorEndPosonX, this.cursorEndPosonY);
 
     this.yDifference = this.cursorEndPosonY - this.cursorStartPosonY;
     this.xDifference = this.cursorEndPosonX - this.cursorStartPosonX;
     let d = Math.sqrt(
       this.xDifference * this.xDifference + this.yDifference * this.yDifference
     );
-    console.log("Difference: ", d);
+    // console.log("Difference: ", d);
 
     // this.yDifference = -1 * this.yDifference;
     this.arrow.setScale(d * 0.03, d * 0.03);
@@ -88,9 +91,16 @@ export class stiker extends Component {
     var angle = Math.atan2(delta_y, delta_x);
     angle = (angle * 180) / Math.PI;
 
-    console.log("angle: " + angle);
+    // console.log("angle: " + angle + 90);
 
     this.arrow.angle = angle + 90;
   }
-  update(deltaTime: number) {}
+  update(deltaTime: number) {
+    if (
+      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
+      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.y) < 0.5
+    ) {
+      this.node.setPosition(-459.3464, -607.097);
+    }
+  }
 }

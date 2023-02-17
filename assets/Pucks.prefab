@@ -33,10 +33,13 @@
       },
       {
         "__id__": 10
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 14
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -185,7 +188,7 @@
     "_type": 2,
     "_allowSleep": true,
     "_gravityScale": 0,
-    "_linearDamping": 2,
+    "_linearDamping": 1.5,
     "_angularDamping": 0,
     "_linearVelocity": {
       "__type__": "cc.Vec2",
@@ -212,10 +215,10 @@
       "__id__": 11
     },
     "tag": 0,
-    "_group": 1,
+    "_group": 2,
     "_density": 1,
     "_sensor": false,
-    "_friction": 2,
+    "_friction": 0,
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
@@ -228,6 +231,24 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "e1EgS/inpOMJcPDO4kEgCN"
+  },
+  {
+    "__type__": "f0758GIbvBO3oLaVL8XY33a",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "collider_type": 3,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "4e265AFrlNMKVYuhnWb89e"
   },
   {
     "__type__": "cc.PrefabInfo",

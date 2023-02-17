@@ -6,10 +6,12 @@ import {
   SpriteFrame,
   Prefab,
   instantiate,
+  Collider,
+  Enum,
 } from "cc";
 const { ccclass, property } = _decorator;
 
-import { PUCKS } from "./constants";
+import { COLLIDER_TYPES, PUCKS } from "./constants";
 
 @ccclass("pucks")
 export class pucks extends Component {
@@ -21,6 +23,7 @@ export class pucks extends Component {
 
   @property({ type: SpriteFrame })
   whitePuck: SpriteFrame = null;
+ 
 
   setRed() {
     this.node.getComponent(Sprite).spriteFrame = this.redPuck;

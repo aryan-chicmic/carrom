@@ -5,5 +5,27 @@
       "width": 2048,
       "height": 4098
     }
+  },
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "Pucks"
+      },
+      {
+        "index": 2,
+        "name": "Holes"
+      },
+      {
+        "index": 3,
+        "name": "Boundaries"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 1,
+      "1": 14,
+      "2": 2,
+      "3": 2
+    }
   }
 }
