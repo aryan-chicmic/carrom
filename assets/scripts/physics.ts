@@ -113,16 +113,17 @@ export class physics extends Component {
       selfCollider.node.getComponent(RigidBody2D).linearVelocity = Vec2.ZERO;
 
       setTimeout(() => {
-        let striker: Node = selfCollider.node;
-        striker.getComponent(RigidBody2D).destroy();
+        let puck: Node = selfCollider.node;
+        puck.getComponent(RigidBody2D).destroy();
+
         // striker.getComponent(CircleCollider2D).destroy();
 
-        striker.getComponent(CircleCollider2D).enabled = false;
-        tween(striker)
+        puck.getComponent(CircleCollider2D).enabled = false;
+        tween(puck)
           .to(1, { position: otherCollider.node.getPosition() })
 
           .call(() => {
-            striker.getComponent(stiker).resetIntialPos(this.onBegin);
+            puck.destroy();
 
             // selfCollider.node.setPosition(-459.3464, -607.097);
           })

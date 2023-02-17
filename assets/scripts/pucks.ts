@@ -45,7 +45,9 @@ export class pucks extends Component {
         break;
     }
   }
-
+  resetPuckPos(noBegan1:any){
+    
+  }
   start() {
     // console.log(this.node);
   }

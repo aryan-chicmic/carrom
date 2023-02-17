@@ -115,7 +115,7 @@ export class stiker extends Component {
     this.node.setPosition(-459.3464, -607.097);
     console.log(this.node);
   }
-  resetPuckPos
+  
   update(deltaTime: number) {
     // if (
     //   Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
