@@ -365,7 +365,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 21.275,
+      "x": -487.9505555555556,
       "y": 1046.173333333334,
       "z": 0
     },
@@ -403,7 +403,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 727.3203703703704,
+      "width": 1092.792962962963,
       "height": 44.05481481481482
     },
     "_anchorPoint": {
@@ -505,8 +505,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -1069.7050000000002,
-      "y": 11.53944444444437,
+      "x": -1043.537,
+      "y": 223.51344444444445,
       "z": 0
     },
     "_lrot": {
@@ -544,7 +544,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 58.20444444444445,
-      "height": 704.4407407407407
+      "height": 845.757037037037
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -925,8 +925,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -897.6077777777779,
-      "y": 906.2611111111116,
+      "x": -919.193,
+      "y": 930.544,
       "z": 0
     },
     "_lrot": {
@@ -963,8 +963,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 168.84333333333336,
-      "height": 147.66
+      "width": 125.67222222222225,
+      "height": 99.09222222222222
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -986,7 +986,7 @@
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 1,
-    "_type": 0,
+    "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 0,
     "_linearDamping": 0,
@@ -1014,13 +1014,13 @@
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,
-    "_restitution": 1,
+    "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_radius": 75,
+    "_radius": 55,
     "_id": "3az67Vd6dI3rh0nWn7ZXko"
   },
   {
@@ -1061,8 +1061,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 904.7555555555559,
-      "y": 906.2611111111128,
+      "x": 926.341,
+      "y": 927.847,
       "z": 0
     },
     "_lrot": {
@@ -1122,7 +1122,7 @@
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 1,
-    "_type": 0,
+    "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 0,
     "_linearDamping": 0,
@@ -1150,13 +1150,13 @@
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,
-    "_restitution": 1,
+    "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_radius": 75,
+    "_radius": 55,
     "_id": "226+p9MW1NboZTiBzNpG3m"
   },
   {
@@ -1197,8 +1197,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -897.6077777777779,
-      "y": -904.843333333333,
+      "x": -928.731,
+      "y": -937.222,
       "z": 0
     },
     "_lrot": {
@@ -1258,7 +1258,7 @@
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 1,
-    "_type": 0,
+    "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 0,
     "_linearDamping": 0,
@@ -1286,13 +1286,13 @@
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,
-    "_restitution": 1,
+    "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_radius": 75,
+    "_radius": 50,
     "_id": "53mPGMg+FHK5+ZjDFvi3ML"
   },
   {
@@ -1333,8 +1333,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 881.722222,
-      "y": -904.843333,
+      "x": 923.637,
+      "y": -916.449,
       "z": 0
     },
     "_lrot": {
@@ -1394,7 +1394,7 @@
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 1,
-    "_type": 0,
+    "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 0,
     "_linearDamping": 0,
@@ -1422,13 +1422,13 @@
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,
-    "_restitution": 1,
+    "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_radius": 75,
+    "_radius": 55,
     "_id": "4c37az2XBIvpehFoPEtdNr"
   },
   {
@@ -2591,7 +2591,7 @@
     "_enabled": true,
     "__prefab": null,
     "tag": 0,
-    "_group": 2,
+    "_group": 16,
     "_density": 1,
     "_sensor": false,
     "_friction": 0,

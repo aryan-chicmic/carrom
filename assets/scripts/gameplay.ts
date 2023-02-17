@@ -28,9 +28,10 @@ export class gamplay extends Component {
 
     return newGen;
   }
-//hello this is upated code
+  //hello this is upated code
   start() {
-    let pucksColor = this.colorJson.json.pucksColor;
+    let json: any = this.colorJson.json;
+    let pucksColor = json.pucksColor;
 
     let temp = this.newGenLoad();
     let startpos = temp.getPosition();

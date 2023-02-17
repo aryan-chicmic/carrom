@@ -11,7 +11,11 @@ import {
   RigidBody2D,
   PhysicsSystem2D,
   EPhysics2DDrawFlags,
+  Collider2D,
+  CircleCollider2D,
+  Contact2DType,
 } from "cc";
+import { physics } from "./physics";
 const { ccclass, property } = _decorator;
 
 @ccclass("stiker")
@@ -43,13 +47,17 @@ export class stiker extends Component {
     this.node.on(Input.EventType.TOUCH_MOVE, this.increaseHeight, this);
     this.node.on(Input.EventType.TOUCH_END, this.fetchLocationEnd, this);
     this.node.on(Input.EventType.TOUCH_CANCEL, this.fetchLocationEnd, this);
+
+    console.log(this.node);
   }
   fetchLocationStart(event: EventTouch) {
+    console.log("TOUCH STARTED");
+
     this.arrow.active = true;
     this.hoverGreen.active = true;
     this.hoverRotate.active = true;
-    this.cursorStartPosonX = event.getUILocation().x;
-    this.cursorStartPosonY = event.getUILocation().y;
+    // this.cursorStartPosonX = event.getUILocation().x;
+    // this.cursorStartPosonY = event.getUILocation().y;
     // console.log(
     //   "Start Positions: ",
     //   this.cursorStartPosonX,
@@ -58,15 +66,18 @@ export class stiker extends Component {
 
     // console.log(event.getLocationX());
   }
+  setSpeed() {
+    this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
+      -this.xDifference,
+      -this.yDifference
+    );
+  }
   fetchLocationEnd(event: EventTouch) {
     this.arrow.active = false;
     this.cursorEndPosonX = event.getUILocation().x;
     this.cursorEndPosonY = event.getUILocation().y;
     this.arrow.setScale(2, 2);
-    this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
-      -this.xDifference,
-      -this.yDifference
-    );
+    this.setSpeed();
     this.hoverGreen.active = false;
     this.hoverRotate.active = false;
   }
@@ -74,9 +85,9 @@ export class stiker extends Component {
     this.cursorEndPosonX = event.getUILocation().x;
     this.cursorEndPosonY = event.getUILocation().y;
     // console.log(this.cursorEndPosonX, this.cursorEndPosonY);
-
-    this.yDifference = this.cursorEndPosonY - this.cursorStartPosonY;
-    this.xDifference = this.cursorEndPosonX - this.cursorStartPosonX;
+    var stikerPosition = this.node.getWorldPosition();
+    this.yDifference = this.cursorEndPosonY - stikerPosition.y;
+    this.xDifference = this.cursorEndPosonX - stikerPosition.x;
     let d = Math.sqrt(
       this.xDifference * this.xDifference + this.yDifference * this.yDifference
     );
@@ -85,7 +96,6 @@ export class stiker extends Component {
     // this.yDifference = -1 * this.yDifference;
     this.arrow.setScale(d * 0.03, d * 0.03);
 
-    var stikerPosition = this.node.getWorldPosition();
     var delta_x = this.cursorEndPosonX - stikerPosition.x;
     var delta_y = this.cursorEndPosonY - stikerPosition.y;
     var angle = Math.atan2(delta_y, delta_x);
@@ -95,12 +105,23 @@ export class stiker extends Component {
 
     this.arrow.angle = angle + 90;
   }
+  resetIntialPos(noBegan: any) {
+    // this.node.setScale(0.5, 0.5);
+    this.node.addComponent(RigidBody2D);
+    this.node.getComponent(RigidBody2D).gravityScale = 0;
+
+
+    this.node.getComponent(CircleCollider2D).enabled = true;
+    this.node.setPosition(-459.3464, -607.097);
+    console.log(this.node);
+  }
+  resetPuckPos
   update(deltaTime: number) {
-    if (
-      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
-      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.y) < 0.5
-    ) {
-      this.node.setPosition(-459.3464, -607.097);
-    }
+    // if (
+    //   Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
+    //   Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.y) < 0.5
+    // ) {
+    //   this.resetIntialPos();
+    // }
   }
 }

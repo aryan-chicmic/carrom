@@ -1,4 +1,5 @@
 export enum PUCKS {
+  NONE = 0,
   RED = 1,
   BLACK = 2,
   WHITE = 3,
