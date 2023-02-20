@@ -2323,6 +2323,13 @@
     "hoverRotate": {
       "__id__": 74
     },
+    "slider": {
+      "__id__": 52
+    },
+    "puckPrefab": {
+      "__uuid__": "f228fce0-8815-495b-8080-756ab2a8943a",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "6cJ7k0ADhPqJfZfAIufdbr"
   },
   {
@@ -2594,7 +2601,7 @@
     "_group": 16,
     "_density": 1,
     "_sensor": false,
-    "_friction": 0,
+    "_friction": 2,
     "_restitution": 1,
     "_offset": {
       "__type__": "cc.Vec2",

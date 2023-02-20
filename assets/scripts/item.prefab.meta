@@ -2,13 +2,12 @@
   "ver": "1.1.43",
   "importer": "prefab",
   "imported": true,
-  "uuid": "f228fce0-8815-495b-8080-756ab2a8943a",
+  "uuid": "2f2179e1-33ab-4112-b37b-f6dfabc775f3",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "Pucks",
-    "persistent": false
+    "syncNodeName": "item"
   }
 }

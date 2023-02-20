@@ -14,6 +14,7 @@ import {
   SpriteFrame,
   Sprite,
 } from "cc";
+
 const { ccclass, property } = _decorator;
 
 @ccclass("slider")
@@ -90,13 +91,6 @@ export class slider extends Component {
       this.hoverROTATE.active = false;
       Tween.stopAll();
     });
-    // this.stikerNode.on(Input.EventType.MOUSE_DOWN, () => {
-    //   // this.arrow.active = true;z
-    //   this.arrow.setScale(1, 3);
-    // });
-    // // this.stikerNode.on(Input.EventType.MOUSE_UP, () => {
-    // //   this.arrow.active = false;
-    // // });
   }
   start() {}
 

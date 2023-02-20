@@ -14,123 +14,125 @@ import {
   Vec3,
   CircleCollider2D,
 } from "cc";
-import { COLLIDER_TYPES } from "./constants";
+
+import { COLLIDER_TYPES, PUCKS } from "./constants";
 import { pucks } from "./pucks";
 import { stiker } from "./stiker";
+import { Slider } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("physics")
 export class physics extends Component {
-  puckvar: boolean = false;
   @property({ type: Enum(COLLIDER_TYPES) })
   collider_type: COLLIDER_TYPES = COLLIDER_TYPES.NONE;
   score = 0;
-  onLoad() {
-    // PhysicsSystem2D: any.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
-  }
+  isRedOnHold: boolean = false;
+  count = 0;
+  onLoad() {}
   start() {
     let collider = this.getComponent(Collider2D);
-    if (collider && this.collider_type != COLLIDER_TYPES.NONE) {
+    if (collider && this.collider_type == COLLIDER_TYPES.HOLES) {
       collider.on(Contact2DType.BEGIN_CONTACT, this.onBegin, this);
     }
-    // if (PhysicsSystem2D.instance) {
-    //   PhysicsSystem2D.instance.on(
-    //     Contact2DType.BEGIN_CONTACT,
-    //     this.onBegin,
-    //     this
-    //   );
-    // }
   }
   onBegin = (
     selfCollider: Collider2D,
     otherCollider: Collider2D,
     contact: IPhysics2DContact | null
   ) => {
-    // console.log(selfCollider);
-    // console.log(otherCollider);
-    if (
-      selfCollider.node.getComponent(physics).collider_type ==
-        COLLIDER_TYPES.STIKER &&
-      otherCollider.node.getComponent(physics).collider_type ==
-        COLLIDER_TYPES.HOLES
-    ) {
-      selfCollider.node.getComponent(RigidBody2D).linearVelocity = Vec2.ZERO;
+    this.count++;
+    switch (otherCollider.node.getComponent(physics).collider_type) {
+      case COLLIDER_TYPES.STIKER:
+        console.log("Stiker self case");
+        otherCollider.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
+          0,
+          0
+        );
 
-      console.log("STRIKER COLLIDED>>>>>");
+        console.log("STRIKER COLLIDED>>>>>");
 
-      setTimeout(() => {
-        let striker: Node = selfCollider.node;
-        striker.getComponent(RigidBody2D).destroy();
-        // striker.getComponent(CircleCollider2D).destroy();
+        setTimeout(() => {
+          let striker: Node = otherCollider.node;
+          striker.getComponent(RigidBody2D).destroy();
 
-        striker.getComponent(CircleCollider2D).enabled = false;
-        tween(striker)
-          .to(1, { position: otherCollider.node.getPosition() })
+          striker.getComponent(CircleCollider2D).enabled = false;
+          tween(striker)
+            .to(1, { position: selfCollider.node.getPosition() })
 
-          .call(() => {
-            striker.getComponent(stiker).resetIntialPos(this.onBegin);
+            .call(() => {
+              striker.getComponent(stiker).resetIntialPos(this.onBegin);
+            })
+            .start();
+        });
 
-            // selfCollider.node.setPosition(-459.3464, -607.097);
-          })
-          .start();
-      });
+        break;
+      case COLLIDER_TYPES.PUCKS:
+        console.log("Pucks Self case");
+        var puckColor = otherCollider.getComponent(pucks).puckColorType;
 
-      this.score -= 10;
-      // console.log(this.score);
-    } else if (
-      selfCollider.node.getComponent(physics).collider_type ==
-        COLLIDER_TYPES.PUCKS &&
-      otherCollider.node.getComponent(physics).collider_type ==
-        COLLIDER_TYPES.HOLES
-    ) {
-      var puckColor = selfCollider.getComponent(pucks).puckColorType;
+        console.log(otherCollider.getComponent(pucks).puckColorType);
+        switch (puckColor) {
+          // case PUCKS.NONE:
+          //   if (this.isRedOnHold == true) {
+          //     console.log("Red needs to be instationated again");
+          //   } else {
+          //     console.log("None Case", this.count);
+          //   }
+          //   break;
+          case PUCKS.RED:
+            console.log("Red in the Hole");
+            this.isRedOnHold = true;
+            console.log("isRedOnHold true", this.isRedOnHold);
 
-      console.log(selfCollider.getComponent(pucks).puckColorType);
-      // if (puckColor == 2) {
-      //   if(previousPuck==1){
-      //     this.score
-      //   }
-      //   this.score += 10;
-      // } else if (puckColor == 3) {
-      //   this.score += 20;
-      // }
-      if (puckColor == 1) {
-        this.puckvar = true;
-      } else if (puckColor == 2 && this.puckvar == true) {
-        this.score += 60;
-        this.puckvar = false;
-      } else if (puckColor == 3 && this.puckvar == true) {
-        this.score += 70;
-        this.puckvar = false;
-      } else if (puckColor == 2 && this.puckvar == false) {
-        this.score += 10;
-      } else if (puckColor == 3 && this.puckvar == true) {
-        this.score += 20;
-      }
-      console.log(this.score);
+            break;
 
-      // else
-      selfCollider.node.getComponent(RigidBody2D).linearVelocity = Vec2.ZERO;
+          case PUCKS.BLACK:
+            console.log("in case of black", this.isRedOnHold);
 
-      setTimeout(() => {
-        let puck: Node = selfCollider.node;
-        puck.getComponent(RigidBody2D).destroy();
+            if (this.isRedOnHold) {
+              console.log("Red puck fully done");
+              this.isRedOnHold = false;
+            } else {
+              console.log("Black Puck");
+            }
+            break;
 
-        // striker.getComponent(CircleCollider2D).destroy();
+          case PUCKS.WHITE:
+            console.log("in case of white", this.isRedOnHold);
+            if (this.isRedOnHold) {
+              console.log("Red puck fully done");
+              this.isRedOnHold = false;
+            } else {
+              console.log("White Puck");
+            }
+            break;
+          default:
+            console.log("Instationate red again");
+            this.isRedOnHold = false;
+        }
 
-        puck.getComponent(CircleCollider2D).enabled = false;
-        tween(puck)
-          .to(1, { position: otherCollider.node.getPosition() })
+        console.log(this.score);
 
-          .call(() => {
-            puck.destroy();
+        otherCollider.node.getComponent(RigidBody2D).linearVelocity = Vec2.ZERO;
 
-            // selfCollider.node.setPosition(-459.3464, -607.097);
-          })
-          .start();
-      });
+        setTimeout(() => {
+          let puck: Node = otherCollider.node;
+          puck.getComponent(RigidBody2D).destroy();
+
+          puck.getComponent(CircleCollider2D).enabled = false;
+          tween(puck)
+            .to(1, { position: selfCollider.node.getPosition() })
+
+            .call(() => {
+              puck.destroy();
+            })
+            .start();
+        });
+        break;
     }
   };
+
+
 
   update(deltaTime: number) {}
 }

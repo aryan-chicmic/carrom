@@ -14,8 +14,12 @@ import {
   Collider2D,
   CircleCollider2D,
   Contact2DType,
+  Prefab,
+  BlockInputEvents,
 } from "cc";
 import { physics } from "./physics";
+import { Slider } from "cc";
+import { slider } from "./slider";
 const { ccclass, property } = _decorator;
 
 @ccclass("stiker")
@@ -30,15 +34,19 @@ export class stiker extends Component {
   cursorStartPosonY = null;
   yDifference = 0;
   xDifference = 0;
-
+  reposition = false;
   @property({ type: Node })
   arrow: Node = null;
   @property({ type: Node })
   hoverGreen: Node = null;
   @property({ type: Node })
   hoverRotate: Node = null;
+  @property({ type: Node })
+  slider: Node = null;
+  @property({ type: Prefab })
+  puckPrefab: Prefab = null;
   onLoad() {
-    PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
+    // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
     this.hoverGreen.active = true;
     this.hoverRotate.active = true;
   }
@@ -56,15 +64,6 @@ export class stiker extends Component {
     this.arrow.active = true;
     this.hoverGreen.active = true;
     this.hoverRotate.active = true;
-    // this.cursorStartPosonX = event.getUILocation().x;
-    // this.cursorStartPosonY = event.getUILocation().y;
-    // console.log(
-    //   "Start Positions: ",
-    //   this.cursorStartPosonX,
-    //   this.cursorStartPosonY
-    // );
-
-    // console.log(event.getLocationX());
   }
   setSpeed() {
     this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
@@ -80,6 +79,7 @@ export class stiker extends Component {
     this.setSpeed();
     this.hoverGreen.active = false;
     this.hoverRotate.active = false;
+    this.reposition = true;
   }
   increaseHeight(event: EventTouch) {
     this.cursorEndPosonX = event.getUILocation().x;
@@ -91,9 +91,7 @@ export class stiker extends Component {
     let d = Math.sqrt(
       this.xDifference * this.xDifference + this.yDifference * this.yDifference
     );
-    // console.log("Difference: ", d);
 
-    // this.yDifference = -1 * this.yDifference;
     this.arrow.setScale(d * 0.03, d * 0.03);
 
     var delta_x = this.cursorEndPosonX - stikerPosition.x;
@@ -101,27 +99,49 @@ export class stiker extends Component {
     var angle = Math.atan2(delta_y, delta_x);
     angle = (angle * 180) / Math.PI;
 
-    // console.log("angle: " + angle + 90);
-
     this.arrow.angle = angle + 90;
   }
   resetIntialPos(noBegan: any) {
-    // this.node.setScale(0.5, 0.5);
     this.node.addComponent(RigidBody2D);
     this.node.getComponent(RigidBody2D).gravityScale = 0;
-
 
     this.node.getComponent(CircleCollider2D).enabled = true;
     this.node.setPosition(-459.3464, -607.097);
     console.log(this.node);
   }
-  
+
   update(deltaTime: number) {
-    // if (
-    //   Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
-    //   Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.y) < 0.5
-    // ) {
-    //   this.resetIntialPos();
-    // }
+    if (
+      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.x) < 0.5 &&
+      Math.abs(this.node.getComponent(RigidBody2D).linearVelocity.y) < 0.5 &&
+      this.reposition
+    ) {
+      this.node.getComponent(RigidBody2D).linearVelocity.x = 0;
+      this.node.getComponent(RigidBody2D).linearVelocity.y = 0;
+      this.node.setPosition(-459.3464, -607.097);
+      this.hoverGreen.setPosition(-459.3464, -607.097);
+      this.hoverRotate.setPosition(-459.3464, -607.097);
+      this.hoverGreen.active = false;
+      this.hoverRotate.active = false;
+      this.reposition = false;
+      this.node.getComponent(RigidBody2D).gravityScale = 0;
+      this.slider.getComponent(Slider).progress = 0;
+    } else {
+      // this.checkNoPuckIsMoving();
+    }
   }
+  // checkNoPuckIsMoving() {
+  //   if (this.puckPrefab.getComponent(RigidBody2D).linearVelocity > 0.5) {
+  //     // CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(stiker);
+  //     this.node.getComponent(BlockInputEvents).enabled = false;
+  //   } else {
+  //     this.node.getComponent(BlockInputEvents).enabled = true;
+  //   }
+  // }
+
+  // checkIfRedIsOnHold() {
+  //   if (this.isRedOnHold) {
+  //     //Re add red puck
+  //   }
+  // }
 }

@@ -15,6 +15,7 @@ export class loading extends Component {
   // spritedemo: Sprite = null;
   @property({ type: Node })
   logopic: Node = null;
+ 
   spritesArr: SpriteFrame[];
   //   spriteArr: any;
   onLoad() {
@@ -46,7 +47,9 @@ export class loading extends Component {
     this.logopic.getComponent(Sprite).spriteFrame = logo;
     setTimeout(() => director.loadScene("gameplay"), 4000);
   }
-
+// fetchregisterPic(){
+//   let loginBg=this.spritesArr(singleton.getInstance)
+// }
   start() {}
 
   update(deltaTime: number) {}
