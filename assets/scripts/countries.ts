@@ -1,14 +1,32 @@
-import { _decorator, Component, Node } from 'cc';
+import {
+  _decorator,
+  Component,
+  Node,
+  Label,
+  Button,
+  NodeEventType,
+  Event,
+  EventHandler,
+} from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('countries')
+@ccclass("countries")
 export class countries extends Component {
-    start() {
+  optionValue: string;
+  @property({ type: Label }) optionLabel: Label = null;
 
-    }
+  start() {}
 
-    update(deltaTime: number) {
-        
-    }
+  initOption(optionValue: string, node: Node) {
+    this.optionValue = optionValue;
+    this.optionLabel.string = optionValue;
+    const button = this.node.getComponent(Button);
+
+    const clickEventHandler = new EventHandler();
+    clickEventHandler.target = node;
+    clickEventHandler.component = "DropDown";
+    clickEventHandler.handler = "callback";
+    clickEventHandler.customEventData = optionValue;
+    button.clickEvents.push(clickEventHandler);
+  }
 }
-

@@ -2,76 +2,85 @@ import {
   _decorator,
   Component,
   Node,
-  EditBox,
-  Input,
-  UITransform,
-  JsonAsset,
-  instantiate,
   Prefab,
-  Label,
+  JsonAsset,
   ScrollView,
+  instantiate,
+  Button,
+  Label,
+  tween,
+  Vec3,
+  EventHandler,
 } from "cc";
+import { countries } from "./countries";
 const { ccclass, property } = _decorator;
 
-@ccclass("Registration")
-export class Registration extends Component {
-  // @property(EditBox)
-  // public Name: EditBox = null!;
-  // @property(EditBox)
-  // public Username: EditBox = null!;
-  // @property(EditBox)
-  // public Password: EditBox = null!;
-  @property(Label)
-  buttonLabel = null;
-  @property(Node)
-  dropDownIcon = null;
-  @property(ScrollView)
-  scrollView: ScrollView = null;
-  @property({ type: JsonAsset })
-  countries = null;
-  @property(Prefab)
-  dropDownItem = null;
+@ccclass("DropDown")
+export class DropDown extends Component {
+  @property({ type: Prefab }) optionPrefab: Prefab = null;
+  @property({ type: JsonAsset }) optionsJson: JsonAsset = null;
+  @property({ type: ScrollView }) scrollView: ScrollView = null;
+  @property({ type: Node }) arrow: Node = null;
+  @property({ type: Label }) selected: Label = null;
+  @property(EventHandler) dropEvents: EventHandler[] = [];
 
-  dropDownCheck = false;
-  count = 0;
-  onLoad() {
-    this.scrollView.getComponent(UITransform).height = 0;
-    this.scrollView.getComponent(UITransform).height = 0;
-    this.dropDownIcon.on(Input.EventType.TOUCH_START, this.dropDown, this);
-    let countryData = this.countries.json.data;
-    countryData.map((e) => {
-      let item = instantiate(this.dropDownItem);
-      let button = item.getChildByName("Button");
-      button.getChildByNAme("Label").getComponent(Label).string = e.name;
+  isOpen: boolean = false;
+  start() {
+    // console.log(this.optionsJson.json["data"]);
 
-      this.scrollView.content.addChild(item);
+    this.populateOptions(
+      this.optionsJson ? this.optionsJson.json["data"] : [{ name: "abcde" }]
+    );
+    console.log(this.optionsJson);
+
+    this.openDropDown(false);
+  }
+
+  populateOptions(options: any[]) {
+    let newOption: Node = null;
+    options.forEach((option) => {
+      newOption = instantiate(this.optionPrefab);
+      newOption.getComponent(countries).initOption(option.name, this.node);
+      this.scrollView.content.addChild(newOption);
     });
   }
 
-  dropDown() {
-    this.count = 1;
-    this.scrollView.getComponent(UITransform).height = 500;
-    this.scrollView.getComponent(UITransform).height = 475;
-    let scrollViewArr = this.scrollView.content.children;
+  callback = (event: any, customEventData: string) => {
+    this.selected.string = customEventData;
+    this.dropEvents[0].customEventData = customEventData;
+    EventHandler.emitEvents(this.dropEvents, this);
+    this.openDropDown(false);
+  };
 
-    if (!this.dropDownCheck) {
-      this.scrollView.getComponent(UITransform).height = 500;
-      scrollViewArr.map((e) => {
-        e.getComponent(UITransform).height = 500;
-      });
+  clicked(event: any, customEventData: string) {
+    this.openDropDown(!this.isOpen);
+  }
 
-      this.dropDownCheck = true;
+  openDropDown(isOpen: boolean) {
+    this.isOpen = isOpen;
+    if (isOpen) {
+      this.arrow.angle = -90;
+      this.playPopUpOpenAnimation(this.scrollView.node);
     } else {
-      this.scrollView.getComponent(UITransform).height = 0;
-      scrollViewArr.map((e) => {
-        e.getComponent(UITransform).height = 0;
-      });
-
-      this.dropDownCheck = false;
+      this.arrow.angle = 0;
+      this.scrollView.node.active = false;
     }
   }
 
-  start() {}
+  playPopUpOpenAnimation(node: Node) {
+    node.setScale(new Vec3(1, 0.6, 0));
+
+    tween(node)
+      .call(() => {
+        node.active = true;
+      })
+      .to(0, { scale: new Vec3(1, 0.6, 0) })
+      .to(0.099, { scale: new Vec3(1, 1.15, 1) })
+      .to(0.0462, { scale: new Vec3(1, 1, 1) })
+      .to(0.0462, { scale: new Vec3(1, 1.06, 1) })
+      .to(0.066, { scale: new Vec3(1, 1, 1) })
+      .start();
+  }
 
   update(deltaTime: number) {}
 }
