@@ -9,46 +9,50 @@ import {
   instantiate,
   Prefab,
   Label,
+  ScrollView,
 } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("Registration")
 export class Registration extends Component {
-  @property(EditBox)
-  public Name: EditBox = null!;
-  @property(EditBox)
-  public Username: EditBox = null!;
-  @property(EditBox)
-  public Password: EditBox = null!;
-
+  // @property(EditBox)
+  // public Name: EditBox = null!;
+  // @property(EditBox)
+  // public Username: EditBox = null!;
+  // @property(EditBox)
+  // public Password: EditBox = null!;
+  @property(Label)
+  buttonLabel = null;
   @property(Node)
   dropDownIcon = null;
-  @property(Node)
-  scrollView = null;
+  @property(ScrollView)
+  scrollView: ScrollView = null;
   @property({ type: JsonAsset })
   countries = null;
   @property(Prefab)
   dropDownItem = null;
 
   dropDownCheck = false;
-
+  count = 0;
   onLoad() {
-    this.Name.node.on("text-changed", this.editBegin, this);
-
+    this.scrollView.getComponent(UITransform).height = 0;
+    this.scrollView.getComponent(UITransform).height = 0;
     this.dropDownIcon.on(Input.EventType.TOUCH_START, this.dropDown, this);
     let countryData = this.countries.json.data;
     countryData.map((e) => {
       let item = instantiate(this.dropDownItem);
-      item.getComponent(Label).string = e.name;
-      this.scrollView
-        .getChildByName("view")
-        .getChildByName("content")
-        .addChild(item);
+      let button = item.getChildByName("Button");
+      button.getChildByNAme("Label").getComponent(Label).string = e.name;
+
+      this.scrollView.content.addChild(item);
     });
   }
 
   dropDown() {
-    let scrollViewArr = this.scrollView.children;
+    this.count = 1;
+    this.scrollView.getComponent(UITransform).height = 500;
+    this.scrollView.getComponent(UITransform).height = 475;
+    let scrollViewArr = this.scrollView.content.children;
 
     if (!this.dropDownCheck) {
       this.scrollView.getComponent(UITransform).height = 500;
@@ -66,9 +70,7 @@ export class Registration extends Component {
       this.dropDownCheck = false;
     }
   }
-  editBegin(name) {
-    console.log(name._string);
-  }
+
   start() {}
 
   update(deltaTime: number) {}
