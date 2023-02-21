@@ -2,85 +2,122 @@ import {
   _decorator,
   Component,
   Node,
-  Prefab,
+  EditBox,
+  Input,
+  UITransform,
   JsonAsset,
-  ScrollView,
   instantiate,
-  Button,
+  Prefab,
   Label,
   tween,
   Vec3,
-  EventHandler,
 } from "cc";
-import { countries } from "./countries";
 const { ccclass, property } = _decorator;
 
-@ccclass("DropDown")
-export class DropDown extends Component {
-  @property({ type: Prefab }) optionPrefab: Prefab = null;
-  @property({ type: JsonAsset }) optionsJson: JsonAsset = null;
-  @property({ type: ScrollView }) scrollView: ScrollView = null;
-  @property({ type: Node }) arrow: Node = null;
-  @property({ type: Label }) selected: Label = null;
-  @property(EventHandler) dropEvents: EventHandler[] = [];
+@ccclass("Registration")
+export class Registration extends Component {
+  @property(EditBox)
+  public Name: EditBox = null!;
 
-  isOpen: boolean = false;
-  start() {
-    // console.log(this.optionsJson.json["data"]);
+  @property(EditBox)
+  public email: EditBox = null!;
 
-    this.populateOptions(
-      this.optionsJson ? this.optionsJson.json["data"] : [{ name: "abcde" }]
-    );
-    console.log(this.optionsJson);
+  @property(EditBox)
+  public Password: EditBox = null!;
 
-    this.openDropDown(false);
-  }
+  // @property(EditBox)
+  // public Gender: EditBox = null!;
 
-  populateOptions(options: any[]) {
-    let newOption: Node = null;
-    options.forEach((option) => {
-      newOption = instantiate(this.optionPrefab);
-      newOption.getComponent(countries).initOption(option.name, this.node);
-      this.scrollView.content.addChild(newOption);
+  @property(EditBox)
+  Country: EditBox = null;
+
+  @property(Node)
+  dropDownIcon = null;
+
+  @property(Node)
+  scrollView = null;
+
+  @property({ type: JsonAsset })
+  countries = null;
+
+  @property(Prefab)
+  dropDownItem = null;
+
+  @property(Node)
+  CountryField = null;
+
+  dropDownCheck = false;
+
+  onLoad() {
+    this.scrollView.active = false;
+    this.Name.node.on("text-changed", this.editBegin, this);
+    this.dropDownIcon.on(Input.EventType.TOUCH_START, this.dropDown, this);
+
+    let countryData = this.countries.json.Country;
+
+    countryData.map((e) => {
+      let item = instantiate(this.dropDownItem);
+      item.on(Input.EventType.TOUCH_START, this.addDropDownItem, this);
+      item.children[0].getComponent(Label).string = e.name;
+      this.scrollView
+        .getChildByName("view")
+        .getChildByName("content")
+        .addChild(item);
     });
   }
 
-  callback = (event: any, customEventData: string) => {
-    this.selected.string = customEventData;
-    this.dropEvents[0].customEventData = customEventData;
-    EventHandler.emitEvents(this.dropEvents, this);
-    this.openDropDown(false);
-  };
-
-  clicked(event: any, customEventData: string) {
-    this.openDropDown(!this.isOpen);
+  /**
+   *
+   * @param text
+   * @description adding elements from json to editbox
+   */
+  addDropDownItem(text) {
+    const name = text.target._children[0].getComponent(Label).string;
+    this.CountryField.getComponent(EditBox).string = name;
+    this.scrollView.active = false;
+    this.dropDownCheck = false;
+    // this.crossIcon.active = false;
+    this.dropDownIcon.active = true;
   }
 
-  openDropDown(isOpen: boolean) {
-    this.isOpen = isOpen;
-    if (isOpen) {
-      this.arrow.angle = -90;
-      this.playPopUpOpenAnimation(this.scrollView.node);
+  /**
+   * @description handling the functionality of dropDown scrollbar
+   */
+  dropDown() {
+    this.scrollView.active = true;
+
+    let scrollViewArr = this.scrollView.children;
+    if (!this.dropDownCheck) {
+      // this.dropDownIcon.active = false;
+      tween(this.scrollView)
+        .to(0, { scale: new Vec3(1, 0.6, 0) })
+
+        .to(0.0462, { scale: new Vec3(1, 1, 1) })
+        .to(0.0462, { scale: new Vec3(1, 1.06, 1) })
+        .to(0.066, { scale: new Vec3(1, 1, 1) })
+        .to(0.099, { scale: new Vec3(1, 1.15, 1) })
+        .start();
+      // this.scrollView.setScale(1, 1);
+      scrollViewArr.map((e) => {
+        e.setScale(1, 1);
+      });
+      this.dropDownCheck = true;
     } else {
-      this.arrow.angle = 0;
-      this.scrollView.node.active = false;
+      // this.crossIcon.active = false;
+      this.dropDownIcon.active = true;
+      this.scrollView.setScale(1, 0);
+      scrollViewArr.map((e) => {
+        e.setScale(1, 0);
+      });
+      this.dropDownCheck = false;
     }
   }
 
-  playPopUpOpenAnimation(node: Node) {
-    node.setScale(new Vec3(1, 0.6, 0));
-
-    tween(node)
-      .call(() => {
-        node.active = true;
-      })
-      .to(0, { scale: new Vec3(1, 0.6, 0) })
-      .to(0.099, { scale: new Vec3(1, 1.15, 1) })
-      .to(0.0462, { scale: new Vec3(1, 1, 1) })
-      .to(0.0462, { scale: new Vec3(1, 1.06, 1) })
-      .to(0.066, { scale: new Vec3(1, 1, 1) })
-      .start();
+  editBegin(name) {
+    console.log(name._string);
   }
+
+  start() {}
 
   update(deltaTime: number) {}
 }
